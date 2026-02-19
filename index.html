@@ -1,0 +1,93 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>現代象棋</title>
+    <script type="text/javascript" src="board.js"></script>
+	<script type="text/javascript" src="position.js"></script>
+	<script type="text/javascript" src="search.js"></script>
+	<script type="text/javascript" src="book.js"></script>
+    <style type="text/css"><!--
+body {
+  background: url(images/background.gif);
+}
+	
+span.td {
+  display: inline-block;
+}
+
+div.label {
+  font-size: 14px;
+  padding:2px;
+}
+
+select {
+  font-size: 14px;
+  width: 108px;
+  padding:2px;
+}
+
+option {
+  font-size: 14px;
+}
+
+input.button {
+  font-size: 14px;
+  width: 108px;
+}
+
+label {
+  font-size: 14px;
+}
+    --></style>
+  </head>
+  <body>
+    <div style="text-align:center;font-size:28px;font-family:黑體">現代象棋</div>
+    <div style="height:16px"></div>
+    <div style="text-align:center;white-space:nowrap">
+      <span class="td" style="margin-right:10px">
+        <div id="container"></div>
+      </span><span class="td" style="vertical-align:top;width:120px;"><div style="text-align:left">
+	  <div class="label">誰先走</div>
+      <div><select id="selMoveMode" size="3">
+        <option selected value="0">我先走</option>
+        <option value="1">電腦先走</option>
+        <option value="2">沒有電腦</option>
+      </select></div>
+	  <div class="label">先走讓子</div>
+      <div><select id="selHandicap" style="padding:0px">
+        <option selected value="0">不讓子</option>
+        <option value="1">讓左馬</option>
+        <option value="2">讓雙馬</option>
+        <option value="3">讓九子</option>
+      </select></div>
+	  <div style="padding-top:2px"><input type="button" class="button" value="重新開始" onclick="restart_click()"></div>
+      <div style="padding-top:2px"><input type="button" class="button" value="悔棋" onclick="retract_click()"></div>
+    </div>
+    <script type="text/javascript"><!--
+"use strict";
+
+// �ɹ�ѡ��Ŀ��־���
+var STARTUP_FEN = [
+  "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w",
+  "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKAB1R w",
+  "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/R1BAKAB1R w",
+  "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/9/1C5C1/9/RN2K2NR w",
+];
+
+var board = new Board(container, "images/");	// ʵ�������̶���
+board.setSearch(16);							// ���������㷨
+board.computer = 1;								// ����Ĭ��ִ��
+
+// ���¿�ʼ
+function restart_click() {
+  board.computer = 1 - selMoveMode.selectedIndex;			// �����û�ѡ�񣬾�������ִ�ڻ���ִ��
+  board.restart(STARTUP_FEN[selHandicap.selectedIndex]);	// ʹ���û�ѡ��Ŀ��־��棬��ʼ�����
+}
+
+// ����
+function retract_click() {
+  board.retract();
+}
+    --></script>
+  </body>
+</html>
